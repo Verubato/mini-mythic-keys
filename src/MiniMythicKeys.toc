@@ -1,0 +1,8 @@
+## Interface: 120001, 120000, 110207
+## Title: MiniMythickeys
+## Notes: Responds to "!key" and "!keys" messages in party/raid/guild chat with the mythic keystone you have.
+## Author: Verz
+## Version: 1.0.0
+## IconTexture: Interface\AddOns\MiniMythicKeys\icon.blp
+
+MiniMythicKeys.lua
