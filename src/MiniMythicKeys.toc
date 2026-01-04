@@ -4,5 +4,6 @@
 ## Author: Verz
 ## Version: 1.0.0
 ## IconTexture: Interface\AddOns\MiniMythicKeys\icon.blp
+## X-Curse-Project-ID: 1418981
 
 MiniMythicKeys.lua
