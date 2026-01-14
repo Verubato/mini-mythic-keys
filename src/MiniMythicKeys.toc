@@ -3,7 +3,7 @@
 ## Notes: Responds to "!key" and "!keys" messages in party/raid/guild chat with the mythic keystone you have.
 ## Author: Verz
 ## Version: 1.0.0
-## IconTexture: Interface\AddOns\MiniMythicKeys\icon.blp
+## IconTexture: Interface\AddOns\MiniMythicKeys\Icon.blp
 ## X-Curse-Project-ID: 1418981
 
 MiniMythicKeys.lua
