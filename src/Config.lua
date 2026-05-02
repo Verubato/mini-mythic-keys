@@ -30,6 +30,10 @@ local function Init()
 	local line2 = panel:CreateFontString(nil, "ARTWORK", "GameFontWhite")
 	line2:SetPoint("TOPLEFT", line1, "BOTTOMLEFT", 0, -(verticalSpacing / 2))
 	line2:SetText("Use /key or /keys to open a window showing all party and guild keystones.")
+
+	local line3 = panel:CreateFontString(nil, "ARTWORK", "GameFontWhite")
+	line3:SetPoint("TOPLEFT", line2, "BOTTOMLEFT", 0, -(verticalSpacing / 2))
+	line3:SetText("Use /allkeys to post all party keystones to group chat.")
 end
 
 addon.MiniFramework:WaitForAddonLoad(Init)
