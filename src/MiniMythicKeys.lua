@@ -1,3 +1,7 @@
+local addonName, addon = ...
+
+local issecretvalue = issecretvalue or function() return false end
+
 local keyId = 180653
 local commands = {
 	"!key",
@@ -24,7 +28,7 @@ function TrimWhitespace(s)
 end
 
 local function OnEvent(_, event, message)
-	if not message or InCombatLockdown() then
+	if not message or issecretvalue(message) or InCombatLockdown() then
 		return
 	end
 

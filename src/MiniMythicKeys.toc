@@ -1,9 +1,21 @@
 ## Interface: 120001, 120000, 110207
 ## Title: MiniMythickeys
-## Notes: Responds to "!key" and "!keys" messages in party/raid/guild chat with the mythic keystone you have.
+## Notes: Responds to "!key" and "!keys" in party/raid/guild chat. Use /key or /keys to view all keystones.
 ## Author: Verz
 ## Version: 1.0.0
 ## IconTexture: Interface\AddOns\MiniMythicKeys\Icon.blp
 ## X-Curse-Project-ID: 1418981
+## SavedVariables: LibMythicKeystoneDB MiniMythicKeysDB
 
+Libs\LibStub\LibStub.lua
+Libs\ChatThrottleLib\ChatThrottleLib.lua
+Libs\LibMythicKeystone\Debug.lua
+Libs\LibMythicKeystone\LibMythicKeystone.lua
+Libs\LibMythicKeystone\plugin_astralkeys.lua
+Libs\LibMythicKeystone\plugin_angrykeystones.lua
+Libs\LibKeystone\LibKeystone.lua
+MiniFramework.lua
+Config.lua
 MiniMythicKeys.lua
+KeystoneData.lua
+KeystoneWindow.lua
