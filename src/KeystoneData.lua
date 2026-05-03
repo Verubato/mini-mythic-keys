@@ -14,18 +14,22 @@ local function GetWeek()
 	return math.floor((GetServerTime() - epoch) / 604800)
 end
 
+local function ShortName(name)
+	return name and (name:match("^([^%-]+)") or name) or name
+end
+
 local function OnKeystoneReceived(keyLevel, keyChallengeMapID, playerRating, playerName, channel)
 	if keyLevel < 0 then return end -- guild-hidden
 
 	if channel == "PARTY" then
-		lksPartyKeys[playerName] = {
+		lksPartyKeys[ShortName(playerName)] = {
 			name = playerName,
 			current_key = keyChallengeMapID,
 			current_keylevel = keyLevel,
 		}
 	elseif channel == "GUILD" then
 		local db = GetDB()
-		db.GuildKeys[playerName] = {
+		db.GuildKeys[ShortName(playerName)] = {
 			name = playerName,
 			current_key = keyChallengeMapID,
 			current_keylevel = keyLevel,
@@ -39,15 +43,16 @@ function addon.GetMergedPartyKeys()
 	local result = {}
 
 	for name, entry in pairs(lmk.getPartyKeystone()) do
-		result[name] = entry
+		result[ShortName(name)] = entry
 	end
 
 	for name, entry in pairs(lksPartyKeys) do
-		local existing = result[name]
+		local existing = result[ShortName(name)]
+		local key = ShortName(name)
 		if not existing then
-			result[name] = entry
+			result[key] = entry
 		elseif (entry.current_keylevel or 0) > (existing.current_keylevel or 0) then
-			result[name] = {
+			result[key] = {
 				name = existing.name,
 				class = existing.class,
 				realm = existing.realm,
@@ -75,15 +80,16 @@ function addon.GetMergedGuildKeys()
 	local result = {}
 
 	for name, entry in pairs(lmk.getGuildKeystone()) do
-		result[name] = entry
+		result[ShortName(name)] = entry
 	end
 
 	for name, entry in pairs(db.GuildKeys) do
-		local existing = result[name]
+		local key = ShortName(name)
+		local existing = result[key]
 		if not existing then
-			result[name] = entry
+			result[key] = entry
 		elseif (entry.current_keylevel or 0) > (existing.current_keylevel or 0) then
-			result[name] = {
+			result[key] = {
 				name = existing.name or name,
 				class = existing.class,
 				current_key = entry.current_key,
