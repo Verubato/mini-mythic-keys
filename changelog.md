@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2
+
+12.1 version support
+
 ## 2.0.1
 
 Merged duplicated party entries (one with realm name and one without).
