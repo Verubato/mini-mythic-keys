@@ -23,7 +23,6 @@ local function Init()
 			"Use /key or /keys to open a window showing all party and guild keystones.",
 			"Use /allkeys to post all party keystones to group chat.",
 		},
-		Y = -verticalSpacing,
 		Gap = verticalSpacing / 2,
 	})
 end
