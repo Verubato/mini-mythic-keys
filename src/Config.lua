@@ -3,7 +3,6 @@ local addonName, addon = ...
 local function Init()
 	local mini = addon.Framework
 	local verticalSpacing = mini.VerticalSpacing
-	local horizontalSpacing = mini.HorizontalSpacing
 
 	local panel = CreateFrame("Frame")
 	panel.name = addonName
@@ -24,7 +23,6 @@ local function Init()
 			"Use /key or /keys to open a window showing all party and guild keystones.",
 			"Use /allkeys to post all party keystones to group chat.",
 		},
-		X = horizontalSpacing,
 		Y = -verticalSpacing,
 		Gap = verticalSpacing / 2,
 	})
