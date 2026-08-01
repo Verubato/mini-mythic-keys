@@ -3,8 +3,29 @@ local addonName, addon = ...
 local window
 
 local ROW_HEIGHT = 28
+-- Minimum widths. Name and Dungeon share whatever the window has spare; Level and Weekly hold
+-- a "+30"-sized number and never need more.
 local COLS = { Name = 150, Dungeon = 200, Level = 55, Weekly = 90 }
 local COL_GAP = 8
+local ROW_PADDING = 4
+-- Width the scrollbar column reserves on the right of the list, whether or not it's shown.
+local SCROLLBAR_WIDTH = 14
+-- Fraction of the spare width that goes to Name; the rest goes to Dungeon.
+local NAME_GROWTH_SHARE = 0.35
+
+local DEFAULT_WIDTH = 600
+local DEFAULT_HEIGHT = 480
+-- Narrowest window that still fits every column at its minimum: the list's base width plus the
+-- scrollbar gutter, plus the standalone window's content padding and borders.
+local MIN_WIDTH = 570
+local MIN_HEIGHT = 300
+
+local DEFAULTS = {
+	Window = {
+		Width = DEFAULT_WIDTH,
+		Height = DEFAULT_HEIGHT,
+	},
+}
 
 local function GetClassColor(className)
 	if className and className ~= "" then
@@ -22,15 +43,30 @@ end
 
 local function BuildList(parent, getDataFn)
 	local rows = {}
-	local CONTENT_WIDTH = 4 + COLS.Name + COL_GAP + COLS.Dungeon + COL_GAP + COLS.Level + COL_GAP + COLS.Weekly + 4
+
+	-- Every column at its minimum. Anything the window has beyond this is handed to Name and
+	-- Dungeon by Layout below, so widening the window widens the list rather than padding it.
+	local BASE_WIDTH = ROW_PADDING
+		+ COLS.Name
+		+ COL_GAP
+		+ COLS.Dungeon
+		+ COL_GAP
+		+ COLS.Level
+		+ COL_GAP
+		+ COLS.Weekly
+		+ ROW_PADDING
+
+	local contentWidth = BASE_WIDTH
+	local nameWidth = COLS.Name
+	local dungeonWidth = COLS.Dungeon
 
 	local header = CreateFrame("Frame", nil, parent)
 	header:SetPoint("TOPLEFT", 0, 0)
-	header:SetPoint("TOPRIGHT", -14, 0)
+	header:SetPoint("TOPRIGHT", -SCROLLBAR_WIDTH, 0)
 	header:SetHeight(22)
 
 	local hName = header:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-	hName:SetPoint("LEFT", 4, 0)
+	hName:SetPoint("LEFT", ROW_PADDING, 0)
 	hName:SetWidth(COLS.Name)
 	hName:SetText("Name")
 	hName:SetTextColor(0.7, 0.7, 0.7)
@@ -61,7 +97,7 @@ local function BuildList(parent, getDataFn)
 
 	local sf = CreateFrame("ScrollFrame", nil, parent)
 	sf:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -4)
-	sf:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -14, 0)
+	sf:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -SCROLLBAR_WIDTH, 0)
 	sf:EnableMouseWheel(true)
 	sf:SetScript("OnMouseWheel", function(self, delta)
 		local step = 40
@@ -69,7 +105,7 @@ local function BuildList(parent, getDataFn)
 	end)
 
 	local sc = CreateFrame("Frame", nil, sf)
-	sc:SetSize(CONTENT_WIDTH, 1)
+	sc:SetSize(BASE_WIDTH, 1)
 	sf:SetScrollChild(sc)
 
 	local sb = CreateFrame("Slider", nil, parent, "BackdropTemplate")
@@ -110,18 +146,45 @@ local function BuildList(parent, getDataFn)
 	sf:SetScript("OnScrollRangeChanged", UpdateScrollBar)
 	sf:HookScript("OnMouseWheel", function() sb:SetValue(sf:GetVerticalScroll()) end)
 
+	-- Re-splits the list width across the flexible columns. Level and Weekly stay fixed, so the
+	-- spare width goes to Name and Dungeon - the two that actually truncate.
+	local function Layout(width)
+		local available = (width or 0) - SCROLLBAR_WIDTH
+		local spare = math.max(0, available - BASE_WIDTH)
+		local nameExtra = math.floor(spare * NAME_GROWTH_SHARE)
+
+		nameWidth = COLS.Name + nameExtra
+		dungeonWidth = COLS.Dungeon + (spare - nameExtra)
+		contentWidth = BASE_WIDTH + spare
+
+		hName:SetWidth(nameWidth)
+		hDungeon:SetWidth(dungeonWidth)
+		sc:SetWidth(contentWidth)
+
+		for _, row in ipairs(rows) do
+			row:SetWidth(contentWidth)
+			row.Name:SetWidth(nameWidth)
+			row.Dungeon:SetWidth(dungeonWidth)
+		end
+	end
+
+	parent:HookScript("OnSizeChanged", function(_, width)
+		Layout(width)
+	end)
+
 	local function CreateRow()
 		local row = CreateFrame("Frame", nil, sc)
 		row:SetHeight(ROW_HEIGHT)
+		row:SetWidth(contentWidth)
 
 		row.Name = row:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-		row.Name:SetPoint("LEFT", row, "LEFT", 4, 0)
-		row.Name:SetWidth(COLS.Name)
+		row.Name:SetPoint("LEFT", row, "LEFT", ROW_PADDING, 0)
+		row.Name:SetWidth(nameWidth)
 		row.Name:SetJustifyH("LEFT")
 
 		row.Dungeon = row:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 		row.Dungeon:SetPoint("LEFT", row.Name, "RIGHT", COL_GAP, 0)
-		row.Dungeon:SetWidth(COLS.Dungeon)
+		row.Dungeon:SetWidth(dungeonWidth)
 		row.Dungeon:SetJustifyH("LEFT")
 
 		row.Level = row:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -138,6 +201,9 @@ local function BuildList(parent, getDataFn)
 	end
 
 	local function Refresh()
+		-- Re-split before repopulating: the window may have been resized while this tab was hidden.
+		Layout(parent:GetWidth())
+
 		for _, row in ipairs(rows) do
 			row:Hide()
 		end
@@ -184,7 +250,7 @@ local function BuildList(parent, getDataFn)
 			end
 
 			row:SetPoint("TOPLEFT", sc, "TOPLEFT", 0, -y)
-			row:SetWidth(CONTENT_WIDTH)
+			row:SetWidth(contentWidth)
 			row:Show()
 
 			y = y + ROW_HEIGHT + 2
@@ -200,7 +266,7 @@ local function BuildList(parent, getDataFn)
 			rows[1].Level:SetText("")
 			rows[1].Weekly:SetText("")
 			rows[1]:SetPoint("TOPLEFT", sc, "TOPLEFT", 0, 0)
-			rows[1]:SetWidth(CONTENT_WIDTH)
+			rows[1]:SetWidth(contentWidth)
 			rows[1]:Show()
 			y = ROW_HEIGHT
 		end
@@ -210,17 +276,32 @@ local function BuildList(parent, getDataFn)
 		UpdateScrollBar()
 	end
 
+	Layout(parent:GetWidth())
+
 	return { Refresh = Refresh }
 end
 
 local function BuildWindow()
-	local mini = addon.MiniFramework
+	local mini = addon.Framework
+	local db = mini:GetSavedVars(DEFAULTS)
+
+	-- The saved size is clamped on the way back in: the screen may have shrunk, the UI scale may
+	-- have changed, or the minimums may have moved since it was written.
+	local savedWidth = mini:ClampInt(db.Window.Width, MIN_WIDTH, UIParent:GetWidth(), DEFAULT_WIDTH)
+	local savedHeight = mini:ClampInt(db.Window.Height, MIN_HEIGHT, UIParent:GetHeight(), DEFAULT_HEIGHT)
 
 	local win = mini:CreateStandaloneWindow({
 		Name = addonName .. "KeystoneWindow",
 		Title = "Mythic Keys",
-		Width = 600,
-		Height = 480,
+		Width = savedWidth,
+		Height = savedHeight,
+		Resizable = true,
+		MinWidth = MIN_WIDTH,
+		MinHeight = MIN_HEIGHT,
+		OnResizeStop = function(width, height)
+			db.Window.Width = math.floor(width + 0.5)
+			db.Window.Height = math.floor(height + 0.5)
+		end,
 	})
 
 	local partyList, guildList

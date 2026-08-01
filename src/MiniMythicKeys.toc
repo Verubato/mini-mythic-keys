@@ -14,7 +14,7 @@ Libs\LibMythicKeystone\LibMythicKeystone.lua
 Libs\LibMythicKeystone\plugin_astralkeys.lua
 Libs\LibMythicKeystone\plugin_angrykeystones.lua
 Libs\LibKeystone\LibKeystone.lua
-MiniFramework.lua
+Libs\MiniFramework\MiniFramework.xml
 Config.lua
 MiniMythicKeys.lua
 KeystoneData.lua

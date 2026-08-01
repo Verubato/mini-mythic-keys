@@ -1,5 +1,3 @@
-local addonName, addon = ...
-
 local issecretvalue = issecretvalue or function() return false end
 
 local keyId = 180653
