@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1
+
+Config framework update.
+
 ## 2.1.0
 
 New MiniFramework added across all my mini addons.
