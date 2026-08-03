@@ -135,7 +135,7 @@ local function Init()
 	end
 end
 
-local initFrame = CreateFrame("Frame")
+local initFrame = CreateFrame("Frame") -- luaconv: its handler is a function defined above
 initFrame:RegisterEvent("PLAYER_LOGIN")
 initFrame:SetScript("OnEvent", function(self)
 	self:UnregisterEvent("PLAYER_LOGIN")

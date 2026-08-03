@@ -6,6 +6,14 @@ local commands = {
 	"!keys",
 }
 
+local chatEvents = {
+	"CHAT_MSG_PARTY",
+	"CHAT_MSG_PARTY_LEADER",
+	"CHAT_MSG_RAID",
+	"CHAT_MSG_RAID_LEADER",
+	"CHAT_MSG_GUILD",
+}
+
 local function FindKey()
 	for bag = 0, BACKPACK_CONTAINER + NUM_BAG_SLOTS + 1 do
 		for slot = 1, C_Container.GetContainerNumSlots(bag) do
@@ -63,16 +71,8 @@ local function OnEvent(_, event, message)
 	SendChatMessage(link, channel)
 end
 
-local frame = CreateFrame("Frame")
+local frame = CreateFrame("Frame") -- luaconv: its handler is a function defined above
 frame:HookScript("OnEvent", OnEvent)
-
-local chatEvents = {
-	"CHAT_MSG_PARTY",
-	"CHAT_MSG_PARTY_LEADER",
-	"CHAT_MSG_RAID",
-	"CHAT_MSG_RAID_LEADER",
-	"CHAT_MSG_GUILD",
-}
 
 for _, event in ipairs(chatEvents) do
 	frame:RegisterEvent(event)
