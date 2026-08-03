@@ -1,4 +1,4 @@
-## Interface: 120100, 120005
+## Interface: 120100, 120007, 120005
 ## Title: MiniMythickeys
 ## Notes: Responds to "!key" and "!keys" in party/raid/guild chat. Use /key or /keys to view all keystones.
 ## Author: Verz
