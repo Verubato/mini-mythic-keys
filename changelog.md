@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.2
+
+Updated interface versions for the latest client builds.
+
 ## 2.1.1
 
 Config framework update.
