@@ -12,9 +12,9 @@ MiniMythicKeys does three things around Mythic+ keystones:
 
 | Item | Value |
 |---|---|
-| Addon version | 2.1.3 |
+| Addon version | 2.1.4 |
 | Author | Verz |
-| Interface versions (TOC) | 120100, 120007, 120005 (Retail only) |
+| Interface versions (TOC) | 120100 (Retail only) |
 | Saved variables | LibMythicKeystoneDB, MiniMythicKeysDB (both account-wide) |
 | Slash commands | /key, /keys (toggle the keystone window); /allkeys (post party keys to chat); /minimythickeys, /minimk, /mmk (open the options panel) |
 | Options location | Game Menu -> Options -> AddOns -> MiniMythicKeys (informational text only, no settings) |
@@ -66,9 +66,9 @@ Behavior details:
 
 ## Version-gated behavior
 
-- Retail only (TOC 12.0.5+). The LibKeystone protocol component is also retail-only by design.
+- Retail 12.1 only. The LibKeystone protocol component is also retail-only by design.
 - The chat auto-reply is disabled while in combat.
-- Messages flagged as protected "secret" values by the 12.x client are ignored rather than erroring.
+- Messages flagged as protected "secret" values by the client are ignored rather than erroring.
 
 ## Troubleshooting
 
