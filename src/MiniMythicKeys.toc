@@ -1,6 +1,7 @@
 ## Interface: 120100
 ## Title: MiniMythickeys
 ## Notes: Responds to "!key" and "!keys" in party/raid/guild chat. Use /key or /keys to view all keystones.
+## Category: Mini
 ## Author: Verz
 ## Version: 2.1.4
 ## IconTexture: Interface\AddOns\MiniMythicKeys\Icon.blp
