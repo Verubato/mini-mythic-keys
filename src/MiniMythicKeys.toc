@@ -3,7 +3,7 @@
 ## Notes: Responds to "!key" and "!keys" in party/raid/guild chat. Use /key or /keys to view all keystones.
 ## Category: Mini
 ## Author: Verz
-## Version: 2.1.5
+## Version: 2.1.6
 ## IconTexture: Interface\AddOns\MiniMythicKeys\Icon.blp
 ## X-Curse-Project-ID: 1418981
 ## SavedVariables: LibMythicKeystoneDB MiniMythicKeysDB

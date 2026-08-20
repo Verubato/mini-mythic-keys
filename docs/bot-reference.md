@@ -12,7 +12,7 @@ MiniMythicKeys does three things around Mythic+ keystones:
 
 | Item | Value |
 |---|---|
-| Addon version | 2.1.4 |
+| Addon version | 2.1.6 |
 | Author | Verz |
 | Interface versions (TOC) | 120100 (Retail only) |
 | Saved variables | LibMythicKeystoneDB, MiniMythicKeysDB (both account-wide) |
