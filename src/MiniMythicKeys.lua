@@ -29,7 +29,7 @@ local function FindKey()
 	return nil
 end
 
-function TrimWhitespace(s)
+local function TrimWhitespace(s)
 	return s:match("^%s*(.-)%s*$")
 end
 
