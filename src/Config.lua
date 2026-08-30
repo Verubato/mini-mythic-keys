@@ -18,6 +18,8 @@ local function Init()
 		"/minimythickeys",
 		"/minimk",
 		"/mmk",
+		"/minikeys",
+		"/mkeys",
 	})
 
 	local header = mini:PanelHeader({
