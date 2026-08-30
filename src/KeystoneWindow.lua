@@ -388,6 +388,12 @@ local function BuildWindow()
 	return win
 end
 
+-- The settings panel button lives in another file and has no access to the window local,
+-- so it reaches the toggle through this function instead.
+function addon.ToggleWindow()
+	window:Toggle()
+end
+
 local initFrame = CreateFrame("Frame") -- luaconv: its handler is a function defined above
 initFrame:RegisterEvent("PLAYER_LOGIN")
 initFrame:SetScript("OnEvent", function(self)

@@ -20,7 +20,7 @@ local function Init()
 		"/mmk",
 	})
 
-	mini:PanelHeader({
+	local header = mini:PanelHeader({
 		Parent = panel,
 		Lines = {
 			"Responds to \"!key\" and \"!keys\" in party, raid, and guild chat with your Mythic+ keystone.",
@@ -29,6 +29,17 @@ local function Init()
 		},
 		Gap = verticalSpacing / 2,
 	})
+
+	-- Some players' /keys is taken over by another addon, so this is the only way in for them.
+	local openWindow = mini:Button({
+		Parent = panel,
+		Text = "Open Window",
+		Width = 140,
+		OnClick = function()
+			addon.ToggleWindow()
+		end,
+	})
+	openWindow:SetPoint("TOPLEFT", header.Anchor, "BOTTOMLEFT", 0, -verticalSpacing)
 end
 
 addon.Framework:WaitForAddonLoad(Init)
