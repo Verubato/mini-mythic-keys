@@ -16,12 +16,12 @@ MiniMythicKeys does three things around Mythic+ keystones:
 | Author | Verz |
 | Interface versions (TOC) | 120100 (Retail only) |
 | Saved variables | LibMythicKeystoneDB, MiniMythicKeysDB (both account-wide) |
-| Slash commands | /key, /keys (toggle the keystone window); /allkeys (post party keys to chat); /minimythickeys, /minimk, /mmk (open the options panel) |
-| Options location | Game Menu -> Options -> AddOns -> MiniMythicKeys (informational text only, no settings) |
+| Slash commands | /key, /keys (toggle the keystone window); /allkeys (post party keys to chat); /minimythickeys, /minimk, /mmk, /minikeys, /mkeys (open the options panel) |
+| Options location | Game Menu -> Options -> AddOns -> MiniMythicKeys (usage text, an Open Window button, no settings) |
 | Bundled libraries | LibStub, ChatThrottleLib, LibMythicKeystone-1.0 (with AstralKeys and AngryKeystones plugins), LibKeystone, MiniFramework |
 | CurseForge project | minimythickeys (ID 1418981) |
 
-There are no configurable settings. The only saved preference is the keystone window's size.
+There are no configurable settings. The only saved preference is the keystone window's size. The options panel does have an "Open Window" button, for players whose /key or /keys is taken over by another addon; it opens the same Mythic Keys window as those slash commands.
 
 ## Feature 1: chat auto-reply
 
@@ -79,6 +79,6 @@ Behavior details:
 - "A guildmate's key looks outdated": guild keys are cached for the current reset week and only update when new broadcasts arrive; press Refresh. Old-week entries clear at login after reset.
 - "Someone shows twice": party entries are merged by name (realm stripped); if you still see duplicates that is a bug worth reporting.
 - "/allkeys printed nothing to the group": you must be in a group, and only members with a known key (level above 0) are posted.
-- "Where are the settings?": there are none. The options panel only shows usage text; the window remembers its own size automatically.
+- "Where are the settings?": there are none. The options panel shows usage text and an Open Window button; the window remembers its own size automatically.
 - "Does it work on Classic?": no, Retail only.
 - "Conflicts with AstralKeys or AngryKeystones?": no conflict; MiniMythicKeys reads their data to fill its lists.

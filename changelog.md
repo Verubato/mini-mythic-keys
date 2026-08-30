@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0
+
+- UI improvements.
+- Added a settings button that opens the keystone window.
+- Added /minikeys and /mkeys as slash commands.
+
 ## 2.1.6
 
 Stopped an internal helper leaking into the global namespace, where another addon could collide with it.
